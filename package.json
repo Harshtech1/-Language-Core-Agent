@@ -6,9 +6,9 @@
   "scripts": {
     "dev:web": "cd web && npm run dev",
     "build:web": "cd web && npm run build",
-    "dev:api": "cd api && uvicorn main:app --reload --port 8000",
-    "seed": "cd api && python -m workers.seed_hsk",
-    "test:srs": "cd api && python -m pytest tests/ -v"
+    "dev:api": "py -3.12 -m uvicorn api.main:app --reload --port 8000",
+    "seed": "cd api && py -3.12 -m workers.seed_hsk",
+    "test:srs": "cd api && py -3.12 -m pytest tests/ -v"
   },
   "workspaces": [
     "web"
