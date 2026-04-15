@@ -1,0 +1,28 @@
+services:
+  # ── API (FastAPI backend) ─────────────────────
+  - type: web
+    name: hsk-agent-api
+    runtime: python
+    buildCommand: "pip install -r api/requirements.txt"
+    startCommand: "uvicorn api.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: MODEL_LESSON
+        value: "anthropic/claude-3.5-sonnet"
+      - key: MODEL_EVAL
+        value: "google/gemini-3.1-flash-lite"
+    region: oregon # or your preferred region
+    plan: free
+
+  # ── Telegram Webhook Proxy (optional, usually done via API) ──
+  # Note: The workers/telegram_bot.py is mainly for local dev.
+  # In production, Render can handle the webhook directly on the /webhook/telegram path.

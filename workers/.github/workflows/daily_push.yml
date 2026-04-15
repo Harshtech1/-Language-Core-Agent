@@ -1,0 +1,27 @@
+name: Daily Word Push
+
+on:
+  schedule:
+    - cron: "30 2 * * *"  # 02:30 UTC = 08:00 IST
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: "Run in debug mode"
+        required: false
+        type: boolean
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trigger Daily Word
+        run: |
+          curl -X POST "${{ vars.API_URL }}/cron/daily-word" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json"
+        env:
+          API_URL: ${{ vars.API_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}

@@ -1,0 +1,16 @@
+{
+  "name": "hsk-agent-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "730-Day Autonomous Chinese Language Tutor — HSK 1-4 Mastery Agent",
+  "scripts": {
+    "dev:web": "cd web && npm run dev",
+    "build:web": "cd web && npm run build",
+    "dev:api": "cd api && uvicorn main:app --reload --port 8000",
+    "seed": "cd api && python -m workers.seed_hsk",
+    "test:srs": "cd api && python -m pytest tests/ -v"
+  },
+  "workspaces": [
+    "web"
+  ]
+}
