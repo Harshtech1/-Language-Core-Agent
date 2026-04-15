@@ -38,21 +38,33 @@ export default async function Dashboard() {
   const [todayWord, stats] = await Promise.all([getTodayWord(), getStats()]);
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden bg-[var(--bg-base)]">
       <ThreeBackground />
       
-      <div className="relative z-10 p-8">
-        <header className="flex justify-between items-center mb-12 border-b border-bg-border pb-4">
-          <h1 className="text-3xl tracking-tight font-light text-accent-gold">
-            Language Core // 730 Days
-          </h1>
-          <div className="text-sm uppercase tracking-widest text-text-secondary">
-            Agent Status: Active
+      <div className="relative z-10 max-w-[1600px] mx-auto p-6 md:p-12 lg:p-16">
+        {/* Professional Luxury Header */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-20 gap-6">
+          <div className="space-y-2">
+            <h1 className="text-4xl tracking-[-0.04em] font-extralight text-[var(--accent-gold)] glow-gold">
+              Language Core <span className="text-[var(--text-muted)] font-thin mx-2">/</span> <span className="tracking-[0.2em] font-normal uppercase text-sm">Autonomous Agent</span>
+            </h1>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--text-muted)] font-bold">
+              Operational Sequence: 730-Day Mastery Loop
+            </p>
+          </div>
+          
+          <div className="glass-card px-6 py-3 flex items-center gap-4 border-[var(--bg-border)]/40 hover:border-[var(--accent-gold)]/30 transition-all cursor-default">
+            <div className="w-2 h-2 rounded-full bg-[var(--status-success)] shadow-[0_0_10px_var(--status-success)]" />
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">System Status</span>
+              <span className="text-xs font-mono text-[var(--text-primary)]">ACTIVE_OPERATIONAL</span>
+            </div>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div className="col-span-1">
+        {/* Tactical Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+          <div className="lg:col-span-4 xl:col-span-3 h-full">
             <StatsRing
               streak={stats.streak}
               mastered={stats.mastered}
@@ -60,20 +72,31 @@ export default async function Dashboard() {
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="lg:col-span-8 xl:col-span-9 h-full">
             {todayWord ? (
               <WordCard word={todayWord} />
             ) : (
-              <div className="bg-bg-surface rounded-lg p-8 border border-bg-border">
-                <p className="text-text-secondary">No word scheduled for today.</p>
+              <div className="glass-panel p-20 flex flex-col items-center justify-center text-center">
+                <div className="w-12 h-12 border-2 border-[var(--bg-border)] border-t-[var(--accent-gold)] rounded-full animate-spin mb-6" />
+                <h3 className="text-xl font-light text-[var(--text-secondary)] tracking-widest uppercase mb-2">Idle Sequence</h3>
+                <p className="text-sm text-[var(--text-muted)] uppercase tracking-widest">Awaiting daily vocabulary injection at 08:00 IST</p>
               </div>
             )}
           </div>
         </div>
 
-        <section>
-          <h2 className="text-xl text-accent-cyan mb-4">Mastery Tree</h2>
-          <MasteryTree />
+        {/* Knowledge Base Section */}
+        <section className="mt-20">
+          <div className="flex items-center gap-6 mb-12">
+            <h2 className="text-2xl font-light tracking-tight text-[var(--text-primary)]">
+              Conceptual <span className="text-[var(--accent-cyan)] uppercase text-xs tracking-[0.3em] font-bold ml-2">Mapping</span>
+            </h2>
+            <div className="h-[1px] flex-grow bg-gradient-to-r from-[var(--bg-border)] to-transparent" />
+          </div>
+          
+          <div className="glass-panel p-2 min-h-[400px]">
+            <MasteryTree />
+          </div>
         </section>
       </div>
     </main>

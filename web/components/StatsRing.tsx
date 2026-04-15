@@ -6,51 +6,81 @@ interface StatsRingProps {
   dueToday: number;
 }
 
-export default function StatsRing({ streak, mastered, dueToday }: StatsRingProps) {
+export default function AgentTelemetry({ streak, mastered, dueToday }: StatsRingProps) {
+  const masteryProgress = Math.min((mastered / 1200) * 100, 100);
+
   return (
-    <div className="bg-bg-surface border border-bg-border rounded-2xl p-6 h-full flex flex-col justify-between shadow-xl">
-      <div>
-        <h2 className="uppercase tracking-widest text-xs text-text-secondary mb-8">Agent Telemetry</h2>
+    <div className="glass-panel p-8 h-full flex flex-col justify-between shadow-2xl relative overflow-hidden">
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(var(--bg-border)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:linear-gradient(to_bottom,black,transparent)] opacity-20" />
+      
+      <div className="relative z-10">
+        <header className="flex items-center justify-between mb-10">
+          <h2 className="uppercase tracking-[0.3em] text-[10px] font-bold text-[var(--accent-gold)]">
+            Core Operational Telemetry
+          </h2>
+          <div className="w-2 h-2 rounded-full bg-[var(--status-success)] animate-pulse shadow-[0_0_8px_var(--status-success)]" />
+        </header>
         
-        <div className="mb-8">
-          <div className="text-sm text-text-secondary mb-1">Active Streak</div>
-          <div className="text-5xl font-light text-accent-gold flex items-baseline gap-2">
-            {streak} <span className="text-lg text-text-primary/40 uppercase tracking-widest">Days</span>
+        {/* Streak Core */}
+        <div className="mb-12 group">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-2 font-bold group-hover:text-[var(--text-secondary)] transition-colors">
+            Activity Continuity
+          </div>
+          <div className="flex items-baseline gap-3">
+            <span className="text-7xl font-extralight text-[var(--text-primary)] tracking-tighter glow-gold">
+              {streak}
+            </span>
+            <span className="text-xs uppercase tracking-[0.4em] text-[var(--accent-gold)]/60 font-medium">
+              Cycles
+            </span>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-text-secondary">Words Mastered</span>
-              <span className="text-accent-cyan">{mastered} / 1200</span>
+        {/* Progress Matrix */}
+        <div className="space-y-8">
+          {/* Mastery */}
+          <div className="relative">
+            <div className="flex justify-between items-end mb-3">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] font-bold">
+                Linguistic Mastery
+              </span>
+              <span className="text-[var(--accent-cyan)] font-mono text-sm tracking-tighter">
+                {mastered.toString().padStart(4, '0')} / 1200
+              </span>
             </div>
-            <div className="h-1 bg-bg-base rounded-full overflow-hidden">
+            <div className="h-[2px] w-full bg-[var(--bg-border)]/30 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-accent-cyan shadow-[0_0_10px_rgba(11,216,214,0.5)] transition-all duration-1000 ease-out" 
-                style={{ width: `${Math.min((mastered / 1200) * 100, 100)}%` }}
-              ></div>
+                className="h-full bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--text-primary)] shadow-[0_0_15px_var(--accent-cyan-muted)] transition-all duration-1000 ease-out" 
+                style={{ width: `${masteryProgress}%` }}
+              />
             </div>
           </div>
 
-          <div>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-text-secondary">Due Today (Evening Eval)</span>
-              <span className="text-accent-red">{dueToday}</span>
+          {/* Due Today */}
+          <div className="relative">
+            <div className="flex justify-between items-end mb-3">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] font-bold">
+                Review Queue
+              </span>
+              <span className={dueToday > 0 ? "text-[var(--status-error)] font-mono text-sm tracking-tighter" : "text-[var(--text-muted)] font-mono text-sm tracking-tighter"}>
+                {dueToday.toString().padStart(2, '0')} INCOMING
+              </span>
             </div>
-            <div className="h-1 bg-bg-base rounded-full overflow-hidden">
+            <div className="h-[2px] w-full bg-[var(--bg-border)]/30 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-accent-red shadow-[0_0_10px_rgba(255,87,87,0.5)] transition-all duration-1000 ease-out" 
-                style={{ width: `${Math.min((dueToday / 20) * 100, 100)}%` }}
-              ></div>
+                className={`h-full ${dueToday > 0 ? "bg-[var(--status-error)]" : "bg-[var(--bg-border)]"} shadow-[0_0_15px_var(--status-error)/0.3] transition-all duration-1000 ease-out`}
+                style={{ width: `${Math.min((dueToday / 10) * 100, 100)}%` }}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-8 p-4 bg-bg-base/50 rounded-xl border border-bg-border/30 backdrop-blur-sm">
-        <p className="text-xs text-text-secondary leading-relaxed">
-          <span className="text-accent-gold">System Note:</span> Evening evaluations will be delivered via Telegram at 20:00 local time. Use the budget Flash Lite model for reviews to maintain cost constraints.
+      {/* Footer Info */}
+      <div className="mt-12 p-5 glass-card border-[var(--bg-border)]/30">
+        <p className="text-[10px] text-[var(--text-muted)] leading-relaxed tracking-wider uppercase">
+          <span className="text-[var(--accent-gold)] font-bold">Edge Evaluation:</span> High-velocity Gemini Flash pipelines standing by for cycle completion at <span className="text-[var(--text-secondary)]">20:00 IST</span>.
         </p>
       </div>
     </div>

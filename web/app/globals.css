@@ -2,18 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-base: oklch(0.18 0.02 260);
-  --bg-surface: oklch(0.22 0.02 260);
-  --bg-border: oklch(0.28 0.02 260);
-  --accent-gold: oklch(0.85 0.16 85);
-  --accent-cyan: oklch(0.80 0.14 200);
-  --accent-red: oklch(0.65 0.20 25);
-  --text-primary: oklch(0.95 0.01 260);
-  --text-secondary: oklch(0.65 0.02 260);
+@layer base {
+  :root {
+    /* Base Colors - Deep Onyx Exploration */
+    --bg-base: oklch(0.12 0.01 260);
+    --bg-surface: oklch(0.16 0.01 260);
+    --bg-elevated: oklch(0.20 0.02 260);
+    --bg-border: oklch(0.25 0.02 260);
+    
+    /* Brand Accents - Imperial Gold & Neon Cyan */
+    --accent-gold: oklch(0.85 0.16 85);
+    --accent-gold-muted: oklch(0.65 0.12 85 / 0.4);
+    --accent-cyan: oklch(0.80 0.14 200);
+    --accent-cyan-muted: oklch(0.80 0.14 200 / 0.3);
+    
+    /* Semantic Colors */
+    --status-success: oklch(0.75 0.15 150);
+    --status-error: oklch(0.65 0.20 25);
+    
+    /* Typography */
+    --text-primary: oklch(0.98 0.01 260);
+    --text-secondary: oklch(0.75 0.02 260);
+    --text-muted: oklch(0.55 0.02 260);
+  }
+
+  body {
+    @apply bg-[var(--bg-base)] text-[var(--text-primary)] antialiased selection:bg-[var(--accent-gold)] selection:text-black;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
 }
 
-body {
-  background-color: var(--bg-base);
-  color: var(--text-primary);
+@layer components {
+  .glass-panel {
+    @apply bg-[var(--bg-surface)]/60 backdrop-blur-xl border border-[var(--bg-border)] rounded-2xl shadow-2xl;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .glass-card {
+    @apply bg-[var(--bg-elevated)]/40 backdrop-blur-md border border-[var(--bg-border)]/50 rounded-xl transition-all duration-300;
+  }
+
+  .glow-gold {
+    text-shadow: 0 0 12px oklch(0.85 0.16 85 / 0.4);
+  }
+
+  .glow-cyan {
+    filter: drop-shadow(0 0 8px oklch(0.80 0.14 200 / 0.5));
+  }
+  
+  .luxury-button {
+    @apply px-6 py-2 rounded-full border border-[var(--accent-gold)] text-[var(--accent-gold)] font-medium 
+           hover:bg-[var(--accent-gold)] hover:text-black transition-all duration-300 active:scale-95;
+  }
+}
+
+/* Custom Scrollbar for Luxury Experience */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
